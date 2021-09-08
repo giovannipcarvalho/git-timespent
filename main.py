@@ -1,7 +1,50 @@
+import argparse
 import subprocess
 from collections import defaultdict
 
-MAX_TIME_BETWEEN_COMMITS = 30 * 60
+
+def parse_args():
+    ap = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    ap.add_argument("repo", nargs="?", default=".", help="Path to git repositiory.")
+    ap.add_argument(
+        "--session_split",
+        "-s",
+        default=30 * 60,
+        type=int,
+        help="Time between commits to split sessions (in seconds).",
+    )
+    ap.add_argument(
+        "--granularity",
+        "-g",
+        default=2,
+        type=int,
+        help="Granularity at which to display total contribution time (1-5).",
+    )
+    return ap.parse_args()
+
+
+def main(args):
+    # get history
+    history = parse_git_history(args.repo)
+
+    # separate by author
+    author_contributions = group_by_author(history)
+
+    data = []
+    for author, contributions in author_contributions.items():
+        sessions = split_sessions(contributions, args.session_split)
+        total_time = estimate_total_time(sessions)
+        time_str = format_time(total_time, args.granularity)
+
+        data.append((author, time_str, total_time))
+
+    # sort by total time
+    data.sort(reverse=True, key=lambda x: x[2])
+
+    for row in data:
+        author, time_str, _ = row
+        # seasonal contributors might have empty time_str
+        print(f"{author[:20]:20} {time_str:>10}")
 
 
 def parse_git_history(src_dir="."):
@@ -27,12 +70,12 @@ def group_by_author(git_history):
     return author_contributions
 
 
-def split_sessions(timestamps):
+def split_sessions(timestamps, session_split=30 * 60):
     sessions = []
 
     session = []
     for t in sorted(timestamps):
-        if session and t - session[-1] > MAX_TIME_BETWEEN_COMMITS:
+        if session and t - session[-1] > session_split:
             sessions.append(session)
             session = []
 
@@ -98,27 +141,5 @@ def format_time(seconds, granularity=2):
     return "".join(result[:granularity])
 
 
-# get history
-history = parse_git_history()
-
-# separate by author
-author_contributions = group_by_author(history)
-
-
-data = []
-for author, contributions in author_contributions.items():
-    sessions = split_sessions(contributions)
-
-    total_time = estimate_total_time(sessions)
-
-    time_str = format_time(total_time)
-
-    data.append((author, time_str, total_time))
-
-
-data.sort(reverse=True, key=lambda x: x[2])
-
-
-for row in data:
-    author, time_str, _ = row
-    print(f"{author:20} {time_str:>10}")
+if __name__ == "__main__":
+    main(parse_args())
