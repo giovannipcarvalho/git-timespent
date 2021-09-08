@@ -46,15 +46,13 @@ def main(args):
 
         time_str = format_time(total_time, args.granularity)
 
-        data.append((author, time_str, total_time))
+        data.append((author, time_str, total_time, len(contributions)))
 
     # sort by total time
     data.sort(reverse=True, key=lambda x: x[2])
 
-    for row in data:
-        author, time_str, _ = row
-        # seasonal contributors might have empty time_str
-        print(f"{author[:20]:20} {time_str:>10}")
+    for rank, (author, time_str, total_time, n_commits) in enumerate(data, 1):
+        print(f"#{rank:>3d}. {author[:20]:20} {time_str:>15} ({n_commits:>4d} commits)")
 
 
 def parse_git_history(src_dir="."):
