@@ -65,7 +65,7 @@ def parse_git_history(src_dir="."):
 
     history = []
     for line in output.split("\n"):
-        timestamp, author = line.split("|")
+        timestamp, author = line.split("|", maxsplit=1)
         history.append((int(timestamp), author))
 
     return history
