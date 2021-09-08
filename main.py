@@ -20,6 +20,9 @@ def parse_args():
         type=int,
         help="Granularity at which to display total contribution time (1-5).",
     )
+    ap.add_argument(
+        "--top-k", "-k", type=int, help="Display top k authors by total time."
+    )
     return ap.parse_args()
 
 
@@ -52,6 +55,8 @@ def main(args):
     data.sort(reverse=True, key=lambda x: x[2])
 
     for rank, (author, time_str, total_time, n_commits) in enumerate(data, 1):
+        if args.top_k is not None and rank > args.top_k:
+            break
         print(f"#{rank:>3d}. {author[:20]:20} {time_str:>15} ({n_commits:>4d} commits)")
 
 
