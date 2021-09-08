@@ -54,7 +54,7 @@ def compute_avg_time_between_commits(sessions):
         for a, b in zip(session[:-1], session[1:]):
             time_between_commits.append(abs(a - b))
 
-    # TODO error-handle repos with single commits
+    # TODO error-handle repos with only single commits sessions
     return sum(time_between_commits) / len(time_between_commits)
 
 
