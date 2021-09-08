@@ -7,8 +7,8 @@ def parse_args():
     ap = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     ap.add_argument("repo", nargs="?", default=".", help="Path to git repositiory.")
     ap.add_argument(
-        "--session_split",
-        "-s",
+        "--session-split",
+        "-t",
         default=30 * 60,
         type=int,
         help="Time between commits to split sessions (in seconds). Default is 30min",
