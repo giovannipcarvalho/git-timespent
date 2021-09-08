@@ -59,12 +59,9 @@ def compute_avg_time_between_commits(sessions):
 
 
 def estimate_session_duration(session):
-    # TODO remove this if
-    if not len(session) > 1:
-        # lone commit sessions are dealt with by adding the average time between commits
-        # to the first commit of each session
-        return 0
-
+    # lone commit sessions will have 0 estimated duration. this is dealt with
+    # by adding the average time between commits to the first commit of each
+    # session
     return session[-1] - session[0]
 
 
