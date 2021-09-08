@@ -140,12 +140,12 @@ def format_time(seconds, granularity=2):
     result = []
 
     for name, count in intervals:
-        value = int(seconds // count)
+        value = seconds // count
 
         if value:
             seconds -= value * count
 
-            result.append(f"{value}{name}")
+            result.append(f"{value:.0f}{name}")
     return "".join(result[:granularity])
 
 
