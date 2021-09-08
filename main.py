@@ -76,7 +76,7 @@ def estimate_total_time(sessions):
     return total_duration + session_start_compensation
 
 
-def format_time(seconds, granularity=1):
+def format_time(seconds, granularity=2):
     "borrowed from https://stackoverflow.com/a/24542445"
     intervals = (
         ("w", 604800),  # 60 * 60 * 24 * 7
