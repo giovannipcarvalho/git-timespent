@@ -33,7 +33,17 @@ def main(args):
     data = []
     for author, contributions in author_contributions.items():
         sessions = split_sessions(contributions, args.session_split)
+
+        # skip authors with only single-commit sessions
+        if sum(len(x) for x in sessions) == len(sessions):
+            continue
+
         total_time = estimate_total_time(sessions)
+
+        # skip seasonal contributors
+        if total_time is None or total_time == 0:
+            continue
+
         time_str = format_time(total_time, args.granularity)
 
         data.append((author, time_str, total_time))
