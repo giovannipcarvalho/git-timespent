@@ -9,9 +9,9 @@ def parse_args():
     ap.add_argument(
         "--session-split",
         "-t",
-        default=30 * 60,
+        default=2 * 60 * 60,
         type=int,
-        help="Time between commits to split sessions (in seconds). Default is 30min",
+        help="Time between commits to split sessions (in seconds). Default is 2h.",
     )
     ap.add_argument(
         "--granularity",
