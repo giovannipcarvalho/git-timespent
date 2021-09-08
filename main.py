@@ -11,7 +11,7 @@ def parse_args():
         "-s",
         default=30 * 60,
         type=int,
-        help="Time between commits to split sessions (in seconds).",
+        help="Time between commits to split sessions (in seconds). Default is 30min",
     )
     ap.add_argument(
         "--granularity",
