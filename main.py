@@ -107,7 +107,6 @@ def compute_avg_time_between_commits(sessions):
         for a, b in zip(session[:-1], session[1:]):
             time_between_commits.append(abs(a - b))
 
-    # TODO error-handle repos with only single commits sessions
     return sum(time_between_commits) / len(time_between_commits)
 
 
@@ -124,6 +123,7 @@ def estimate_total_time(sessions):
     session_durations = [estimate_session_duration(s) for s in sessions]
 
     total_duration = sum(session_durations)
+
     session_start_compensation = avg_time_between_commits * len(sessions)
 
     return total_duration + session_start_compensation
