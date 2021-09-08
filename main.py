@@ -62,7 +62,7 @@ def main(args):
 
 def parse_git_history(src_dir="."):
     # timestamp | author
-    cmd = "git log --all --format='format:%at|%an'"
+    cmd = 'git log --all --format="format:%at|%an"'
 
     output = subprocess.check_output(cmd, cwd=src_dir, shell=True).decode("utf-8")
 
