@@ -16,4 +16,3 @@ $ python main.py /tmp/numpy -k 5
 #  4. Pearu Peterson                  1w3h (1126 commits)
 #  5. Mark Wiebe                     5d15h ( 798 commits)
 ```
-
