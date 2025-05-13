@@ -3,7 +3,7 @@ import subprocess
 from collections import defaultdict
 
 
-def parse_args():
+def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     ap.add_argument("repo", nargs="?", default=".", help="Path to git repositiory.")
     ap.add_argument(
@@ -23,10 +23,8 @@ def parse_args():
     ap.add_argument(
         "--top-k", "-k", type=int, help="Display top k authors by total time."
     )
-    return ap.parse_args()
+    args = ap.parse_args(argv)
 
-
-def main(args):
     # get history
     history = parse_git_history(args.repo)
 
@@ -58,6 +56,8 @@ def main(args):
         if args.top_k is not None and rank > args.top_k:
             break
         print(f"#{rank:>3d}. {author[:20]:20} {time_str:>15} ({n_commits:>4d} commits)")
+
+    return 0
 
 
 def parse_git_history(src_dir="."):
@@ -155,4 +155,4 @@ def format_time(seconds, granularity=2):
 
 
 if __name__ == "__main__":
-    main(parse_args())
+    raise SystemExit(main())
