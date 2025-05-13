@@ -1,0 +1,20 @@
+[project]
+name = "git-timespent"
+version = "0.0.1"
+description = "Estimate worked hours per author in a git repository."
+readme = "README.md"
+authors = [
+    { name = "Giovanni Paolo" }
+]
+requires-python = ">=3.6"
+dependencies = []
+
+[project.scripts]
+git-timespent = "timespent:main"
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+py-modules = ["timespent"]
